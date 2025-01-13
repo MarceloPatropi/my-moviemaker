@@ -19,14 +19,14 @@ class MapaMental(Scene):
 
         # Calcular posições com base na quantidade de subtópicos
         base_position = UP * 2
-        vertical_spacing = 1.5
+        vertical_spacing = 0.75
         positions = []
         current_position = base_position
 
         for node, subnodes in nodes:
             positions.append(current_position.copy())  # Adicionar a posição atual à lista
             # Ajustar a posição para o próximo tópico principal
-            current_position += (vertical_spacing + len(subnodes) * 0.75) * DOWN
+            current_position += (vertical_spacing + (len(subnodes)) * 0.5) * DOWN
 
         dots = []
         for i, ((node, subnodes), pos) in enumerate(zip(nodes, positions)):

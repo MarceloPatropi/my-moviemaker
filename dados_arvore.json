@@ -1,0 +1,11 @@
+{
+  "tronco": "Conhecimento",
+  "categorias": [
+    {"forma": "circle", "texto": "Alma"},
+    {"forma": "square", "texto": "Mente"},
+    {"forma": "circle", "texto": "Coração"},
+    {"forma": "square", "texto": "Sentidos"},
+    {"forma": "circle", "texto": "Cérebro"}
+  ],
+  "descricao_raiz": "A alma foi estudada desde a pré-história, com práticas como a trepanação."
+}
