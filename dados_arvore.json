@@ -1,11 +1,49 @@
 {
-  "tronco": "Conhecimento",
-  "categorias": [
-    {"forma": "circle", "texto": "Alma"},
-    {"forma": "square", "texto": "Mente"},
-    {"forma": "circle", "texto": "Coração"},
-    {"forma": "square", "texto": "Sentidos"},
-    {"forma": "circle", "texto": "Cérebro"}
-  ],
-  "descricao_raiz": "A alma foi estudada desde a pré-história, com práticas como a trepanação."
+  "forma": "circle",
+  "texto": "Conhecimento",
+  "descricao_raiz": "A alma foi estudada desde a pré-história.",
+  "filhos": [
+    {
+      "forma": "circle",
+      "texto": "Alma",
+      "filhos": {}
+    },
+    {
+      "forma": "square",
+      "texto": "Mente",
+      "filhos": {}
+    },
+    {
+      "forma": "circle",
+      "texto": "Coração",
+      "filhos": {}
+    },
+    {
+      "forma": "square",
+      "texto": "Sentidos",
+      "filhos": {}
+    },
+    {
+      "forma": "circle",
+      "texto": "Cérebro",
+      "filhos": {
+        "forma": "circle",
+        "texto": "Terpanação",
+        "filhos": {},
+        "detalhes" : {
+          "titulo": "Trepanação",
+          "contexto_historico": "Prática comum em diversas culturas pré-históricas.",
+          "tecnicas": [
+            "Uso de ferramentas de pedra para abrir buracos no crânio.",
+            "Corte em círculos ou retângulos na superfície óssea.",
+            "Processo cuidadoso para evitar danos ao cérebro."
+          ],
+          "evidencias": {
+            "arqueologicas": "Crânios com sinais de cicatrização.",
+            "geograficas": "Práticas documentadas em culturas andinas, europeias e africanas."
+          }
+        }
+      }
+    }
+  ]
 }
