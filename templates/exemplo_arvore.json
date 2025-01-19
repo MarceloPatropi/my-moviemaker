@@ -1,0 +1,32 @@
+{
+    "text": "Árvore Conceitual",
+    "shape": "circle",
+    "children": [
+      {
+        "text": "Raiz",
+        "shape": "circle",
+        "children": [
+          {
+            "text": "Galho 1",
+            "shape": "rectangle",
+            "children": [
+              {
+                "text": "Folha 1.1",
+                "shape": "ellipse"
+              },
+              {
+                "text": "Folha 1.2",
+                "shape": "circle"
+              }
+            ]
+          },
+          {
+            "text": "Galho 2",
+            "shape": "rectangle",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+  
