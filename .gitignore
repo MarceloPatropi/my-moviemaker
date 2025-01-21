@@ -1,1 +1,9 @@
 /media/*
+__pycache__/
+/.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+.DS_Store
