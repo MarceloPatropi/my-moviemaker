@@ -2,7 +2,7 @@ import pandas as pd
 from manim import *
 
 # Construir a Cena da árvore conceitual
-class ArvoreConceitual(Scene):
+class ArvoreConceitual(MovingCameraScene):
     def construct(self):
         def get_data(file_path):
             data = pd.read_csv(file_path, sep="|", skiprows=1, usecols=[1, 2, 3, 4])
@@ -39,18 +39,20 @@ class ArvoreConceitual(Scene):
                     node_shape = Dot()
                 
                 node_text = Text(node["text"]).scale(0.5)
-                group = VGroup(node_shape, node_text).arrange(UP)
 
                 if pd.isna(node["parent"]):
-                    group.move_to(ORIGIN)
-                    data.at[node.name, "node"] = group
+                    group = VGroup(node_shape, node_text).arrange(UP)
+#                    group.move_to(ORIGIN)
                 else:
-                    parent_node = data.loc[data["id"] == node["parent"]].iloc[0]
-                    if parent_node is not None:
-                        n_sibilings = len(data.loc[data["parent"] == parent_node["id"]])
-                        offset = (RIGHT * (node.name - len(data.loc[data["parent"] == parent_node["id"]]) / 2)) * 1.5
-                        group.next_to(parent_node["node"], DOWN, buff=1).shift(offset)
-                        data.at[node.name, "node"] = group
+                    group = VGroup(node_shape, node_text).arrange(DOWN)
+
+                data.at[node.name, "node"] = group
+                    # parent_node = data.loc[data["id"] == node["parent"]].iloc[0]
+                    # if parent_node is not None:
+                    #     n_sibilings = len(data.loc[data["parent"] == parent_node["id"]])
+                    #     offset = (RIGHT * (node.name - len(data.loc[data["parent"] == parent_node["id"]]) / 2)) * 1.5
+                    #     group.next_to(parent_node["node"], DOWN, buff=1).shift(offset)
+                    #     data.at[node.name, "node"] = group
 
             return data
 
@@ -69,15 +71,22 @@ class ArvoreConceitual(Scene):
                     group = node["node"]
                     offset = (RIGHT * (index - len(children) / 2)) * 2
                     group.next_to(raiz["node"], DOWN, buff=1).shift(offset)
-                    self.play(Create(group))
                     index += 1
                     # Adicionar linha curva entre o nó pai e o nó filho
                     line = CubicBezier(raiz["node"].get_bottom(), raiz["node"].get_bottom() + DOWN, group.get_top() + UP, group.get_top())
                     self.play(Create(line))
+                    self.play(Create(group))
+                    self.play(self.camera.frame.animate.move_to(group))  # Mover a câmera para mostrar o grupo
                     create_children(node, level)
     
         file_path = "/home/patropi/my-moviemaker/scenes/arvore_conceitual.md"
         data = get_data(file_path)
 
         create_tree(data)
+
+if __name__ == "__main__":
+    # Renderizar a cena
+    config.media_width = "75%"
+    scene = ArvoreConceitual()
+    scene.render()
 
