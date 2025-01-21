@@ -1,5 +1,7 @@
 import pandas as pd
 from manim import *
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 
 # Construir a Cena da árvore conceitual
 class ArvoreConceitual(MovingCameraScene):
@@ -42,17 +44,16 @@ class ArvoreConceitual(MovingCameraScene):
 
                 if pd.isna(node["parent"]):
                     group = VGroup(node_shape, node_text).arrange(UP)
-#                    group.move_to(ORIGIN)
                 else:
                     group = VGroup(node_shape, node_text).arrange(DOWN)
-
-                data.at[node.name, "node"] = group
                     # parent_node = data.loc[data["id"] == node["parent"]].iloc[0]
                     # if parent_node is not None:
                     #     n_sibilings = len(data.loc[data["parent"] == parent_node["id"]])
-                    #     offset = (RIGHT * (node.name - len(data.loc[data["parent"] == parent_node["id"]]) / 2)) * 1.5
-                    #     group.next_to(parent_node["node"], DOWN, buff=1).shift(offset)
+                    #     offset = (RIGHT * (node.name - len(data.loc[data["parent"] == parent_node["id"]]) / 2)) * 3  # Aumentar o espaço horizontal
+                    #     group.next_to(parent_node["node"], DOWN, buff=2).shift(offset)  # Aumentar o espaço vertical
                     #     data.at[node.name, "node"] = group
+
+                data.at[node.name, "node"] = group
 
             return data
 
@@ -69,19 +70,21 @@ class ArvoreConceitual(MovingCameraScene):
                 index = 0.5
                 for _, node in children.iterrows():
                     group = node["node"]
-                    offset = (RIGHT * (index - len(children) / 2)) * 2
-                    group.next_to(raiz["node"], DOWN, buff=1).shift(offset)
+                    offset = (RIGHT * (index - len(children) / 2)) * 4 # Aumentar o espaço horizontal
+                    group.next_to(raiz["node"], DOWN, buff=1).shift(offset)  # Aumentar o espaço vertical
+                    self.play(Create(group))
                     index += 1
                     # Adicionar linha curva entre o nó pai e o nó filho
                     line = CubicBezier(raiz["node"].get_bottom(), raiz["node"].get_bottom() + DOWN, group.get_top() + UP, group.get_top())
                     self.play(Create(line))
-                    self.play(Create(group))
                     self.play(self.camera.frame.animate.move_to(group))  # Mover a câmera para mostrar o grupo
                     create_children(node, level)
     
-        file_path = "/home/patropi/my-moviemaker/scenes/arvore_conceitual.md"
-        data = get_data(file_path)
+        # Abrir janela do sistema para escolher o arquivo de dados
+        Tk().withdraw()
+        file_path = askopenfilename(title="Selecione o arquivo de dados", filetypes=[("Markdown files", "*.md"), ("All files", "*.*")])
 
+        data = get_data(file_path)
         create_tree(data)
 
 if __name__ == "__main__":

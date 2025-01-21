@@ -1,0 +1,45 @@
+{
+    "id": 1,
+    "text": "Antiguidade",
+    "children": [
+      {
+        "id": 2,
+        "text": "Oriente",
+        "children": [
+          {
+            "id": 5,
+            "text": "Índia",
+            "children": [
+              { "id": 11, "text": "Meditação" },
+              { "id": 12, "text": "Consciência" }
+            ]
+          },
+          {
+            "id": 6,
+            "text": "China",
+            "children": [
+              { "id": 13, "text": "Qi" },
+              { "id": 14, "text": "Corpo-Espírito" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "text": "Egito",
+        "children": [
+          { "id": 7, "text": "Trepanação" },
+          { "id": 8, "text": "Cérebro-Alma" }
+        ]
+      },
+      {
+        "id": 4,
+        "text": "Grécia",
+        "children": [
+          { "id": 9, "text": "Platão" },
+          { "id": 10, "text": "Aristóteles" }
+        ]
+      }
+    ]
+  }
+  
