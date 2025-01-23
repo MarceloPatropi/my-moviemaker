@@ -1,0 +1,25 @@
+{
+    "id": 1,
+    "text": "Antiguidade",
+    "shape": "dot",
+    "children": [
+      {
+        "id": 2,
+        "text": "Oriente",
+        "shape": "dot",
+        "children": []
+      },
+      {
+        "id": 3,
+        "text": "Egito",
+        "shape": "dot",
+        "children": []
+      },
+      {
+        "id": 4,
+        "text": "Grécia",
+        "shape": "dot",
+        "children": []
+      }
+    ]
+}
