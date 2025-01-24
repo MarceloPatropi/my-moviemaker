@@ -7,7 +7,26 @@
         "id": 2,
         "text": "Oriente",
         "shape": "dot",
-        "children": []
+        "children": [
+          {
+            "id": 5,
+            "text": "Índia",
+            "shape": "dot",
+            "children": [
+              { "id": 11, "text": "Meditação", "shape": "dot" },
+              { "id": 12, "text": "Consciência", "shape": "dot" }
+            ]
+          },
+          {
+            "id": 6,
+            "text": "China",
+            "shape": "dot",
+            "children": [
+              { "id": 13, "text": "Qi", "shape": "dot" },
+              { "id": 14, "text": "Corpo-Espírito", "shape": "dot" }
+            ]
+          }
+        ]
       },
       {
         "id": 3,

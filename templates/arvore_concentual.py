@@ -67,7 +67,7 @@ class ArvoreConceitual(MovingCameraScene):
 
         def position_nodes(tree):
             def calculate_width(node):
-                if node["children"]:
+                if node.get("children"):
                     return sum([calculate_width(child) for child in node["children"]])
                 return 1
             
@@ -76,18 +76,19 @@ class ArvoreConceitual(MovingCameraScene):
             #     width += calculate_width(child)
 
             def position_node(node, x_offset=0):
-                if node["children"]:
-                    x = x_offset -0.5
+                if node.get("children"):
+                    x = 0
                     for child in node["children"]:
                         w = calculate_width(child)
                         child["node"].next_to(node["node"], DOWN, buff=1).shift(RIGHT * (x - w / 2) * 2) # Aumentar o espaço horizontal
-                        x += w
-                        position_node(child, x_offset + x)
+                        x += w 
+                        position_node(child)
 
             position_node(tree)
 
 
         def play_tree(scene, tree):
+            scene.play(self.camera.frame.animate.move_to(tree["node"]))
             scene.play(Create(tree["node"]))
             if tree.get("children"):
                 for child in tree["children"]:
