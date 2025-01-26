@@ -14,7 +14,8 @@
             "shape": "dot",
             "children": [
               { "id": 11, "text": "Meditação", "shape": "dot" },
-              { "id": 12, "text": "Consciência", "shape": "dot" }
+              { "id": 12, "text": "Consciência", "shape": "dot" },
+              { "id": 12, "text": "Monismo", "shape": "dot" }
             ]
           },
           {
