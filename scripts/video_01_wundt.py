@@ -110,7 +110,7 @@ if __name__ == "__main__":
 #    gerar_audio()
 
     print("Buscando imagens e vídeos no Pexels...")
-#    buscar_midias()
+    buscar_midias()
 
     print("Criando JSON para edição no Premiere...")
 #    gerar_json_edicao()

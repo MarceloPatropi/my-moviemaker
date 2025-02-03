@@ -1,0 +1,12 @@
+{
+    "imagens": [
+        "https://images.pexels.com/photos/1787219/pexels-photo-1787219.jpeg",
+        "https://images.pexels.com/photos/7956370/pexels-photo-7956370.jpeg",
+        "https://images.pexels.com/photos/8383488/pexels-photo-8383488.jpeg"
+    ],
+    "videos": [
+        "https://videos.pexels.com/video-files/3191353/3191353-hd_2048_1080_25fps.mp4",
+        "https://videos.pexels.com/video-files/3191572/3191572-hd_1920_1080_25fps.mp4",
+        "https://videos.pexels.com/video-files/1851190/1851190-sd_640_360_25fps.mp4"
+    ]
+}

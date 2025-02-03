@@ -31,6 +31,9 @@ class ElevenLabsTTS:
             }
         )
         return audio
+    
+    def save_audio(self, audio, output_file):
+        save(audio, output_file)
 
 # Exemplo de uso
 if __name__ == "__main__":
