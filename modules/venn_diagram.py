@@ -16,18 +16,23 @@ class VennDiagram(Scene):
         circles = []
         labels = []
 
+        # Calcular o tamanho da fonte com base na label mais longa
+        max_label_length = max(len(label) for label in self.set_labels + list(self.intersection_labels.values()))
+        font_size = max(24, 48 - max_label_length * 2)
+
         # Criar os círculos do diagrama de Venn
         for i in range(self.num_sets):
             angle = i * TAU / self.num_sets
             circle = Circle(radius=2, color=self.set_colors[i], fill_opacity=0.5)
             circle.shift(self.shift_multiplier * np.array([np.cos(angle), np.sin(angle), 0]))
             circles.append(circle)
-            label = Text(self.set_labels[i]).move_to(circle.get_center())
+            label = Text(self.set_labels[i], font_size=font_size).move_to(circle.get_center())
             labels.append(label)
 
-        # Adicionar os círculos e rótulos à cena
-        self.play(*[Create(circle) for circle in circles])
-        self.play(*[Write(label) for label in labels])
+        # Adicionar os círculos e rótulos à cena, um de cada vez
+        for circle, label in zip(circles, labels):
+            self.play(Create(circle))
+            self.play(Write(label))
 
         # Adicionar interseções
         intersections = []
@@ -35,7 +40,7 @@ class VennDiagram(Scene):
             for j in range(i + 1, self.num_sets):
                 intersection = Intersection(circles[i], circles[j], color=YELLOW, fill_opacity=0.5)
                 intersection_label = self.intersection_labels.get((i, j), f"{self.set_labels[i]} ∩ {self.set_labels[j]}")
-                intersection_text = Text(intersection_label).move_to(intersection.get_center())
+                intersection_text = Text(intersection_label, font_size=font_size).move_to(intersection.get_center())
                 intersections.append((intersection, intersection_text))
 
         # Adicionar interseções à cena
