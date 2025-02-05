@@ -1,4 +1,5 @@
 from manim import *
+from manim import config
 import numpy as np
 
 class VennDiagram(Scene):
@@ -31,6 +32,7 @@ class VennDiagram(Scene):
 
         # Adicionar os círculos e rótulos à cena, um de cada vez
         for circle, label in zip(circles, labels):
+            self.next_section(label)
             self.play(Create(circle))
             self.play(Write(label))
 
@@ -45,6 +47,7 @@ class VennDiagram(Scene):
 
         # Adicionar interseções à cena
         for intersection, intersection_text in intersections:
+            self.next_section(intersection_text)
             self.play(Create(intersection), Write(intersection_text))
 
         # Manter a animação por alguns segundos
@@ -57,5 +60,10 @@ if __name__ == "__main__":
         (1, 2): "Interseção B ∩ C",
         (0, 2): "Interseção A ∩ C"
     }
-    scene = VennDiagram(set_labels=["A", "B", "C"], set_colors=[BLUE, GREEN, RED], intersection_labels=intersection_labels, shift_multiplier=1.5)
-    scene.render()
+    scene = VennDiagram(
+        set_labels=["A", "B", "C"], 
+        set_colors=[BLUE, GREEN, RED], 
+        intersection_labels=intersection_labels, 
+        shift_multiplier=1.5
+        )
+    scene.render(preview=False)

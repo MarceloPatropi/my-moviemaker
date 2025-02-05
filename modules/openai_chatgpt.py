@@ -13,14 +13,53 @@ class OpenAIChatGPT:
         self.model = "gpt-4o"
         self.store = True
 
-    def generate_response(self, prompt, model="text-davinci-003", max_tokens=150, temperature=0.7):
-        response = self.client.chat.completions.create(
-            model = self.model,
-            store = self.store,
-            messages=[
-                {"role": "user", "content": prompt}
+    def generate_response(self, prompt, image=None, context=None, response_format=None, model="gpt-4o", max_tokens=150, temperature=0.7):
+        if image:
+            message = [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": f"data:image/png;base64,{image}"}
+                        },
+                    ],
+                }
             ]
-        )
+        elif context:
+            message = [
+                {
+                    "role": "user",
+                    "content": prompt
+                },
+                {
+                    "role": "user",
+                    "content": context
+                }
+            ]
+        else:
+            message = [
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+
+        if response_format:
+            response = self.client.beta.chat.completions.parse(
+                model=self.model,
+                store=self.store,
+                messages=message,
+                response_format=response_format
+            )
+        else:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                store=self.store,
+                messages=message
+            )
+            
 
         return response.choices[0].message.content
 

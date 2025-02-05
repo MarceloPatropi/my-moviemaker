@@ -3,17 +3,23 @@ import json
 from manim import *
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
+from typing import Literal
+from pydantic import BaseModel
+
+class TreeNode(BaseModel):
+    id: int
+    text: str
+    shape: Literal["dot", "circle", "rectangle", "ellipse"]
+    children: list["TreeNode"]
 
 # Construir a Cena da árvore conceitual
-class ArvoreConceitual(MovingCameraScene):
-    def construct(self):
-        def get_data(file_path):
-            with open(file_path, 'r') as file:
-                data = json.load(file)
-            return data
+class TopDownTree(MovingCameraScene):
+    def __init__(self, data: TreeNode, **kwargs):
+        super().__init__(**kwargs)
+        self.data = data
 
-        
-        def create_tree(data, parent_group=None):
+    def construct(self):
+        def create_tree(data: TreeNode, parent_group=None):
             def create_node(node_data, parent_group=None):
                 if node_data["shape"] == "circle":
                     node_shape = Circle().scale(0.5).set_fill(BLUE, opacity=0.5)
@@ -27,11 +33,8 @@ class ArvoreConceitual(MovingCameraScene):
                 node_text = Text(node_data["text"]).scale(0.5)
                 if parent_group is None:
                     group = VGroup(node_shape, node_text).arrange(UP)
-    #                group.move_to(ORIGIN)
                 else:
                     group = VGroup(node_shape, node_text).arrange(DOWN)
-
-    #                group = VGroup(node_shape, node_text).arrange(DOWN).next_to(parent_group, DOWN, buff=1)
                 return group
             
             node = create_node(data, parent_group)
@@ -40,7 +43,6 @@ class ArvoreConceitual(MovingCameraScene):
                 for child in data["children"]:
                     child_node = create_tree(child, node)
             return data
-
 
         def position_nodes(tree):
             def calculate_width(node):
@@ -60,7 +62,6 @@ class ArvoreConceitual(MovingCameraScene):
 
             position_node(tree)
 
-
         def play_tree(scene, tree, parent_bottom=None):
             if parent_bottom is not None:
                 line = CubicBezier(parent_bottom, parent_bottom + DOWN, tree["node"].get_top() + UP, tree["node"].get_top())
@@ -73,21 +74,53 @@ class ArvoreConceitual(MovingCameraScene):
                 for child in tree["children"]:
                     play_tree(scene, child, parent_bottom)
                 # Acho um bom local para adicionar as linhas
-#                    scene.wait(0.5)
 
-        # Abrir janela do sistema para escolher o arquivo de dados
-#        Tk().withdraw()
-#        file_path = askopenfilename(title="Selecione o arquivo de dados", filetypes=[("JSON files", "*.json"), ("All files", "*.*")])
-        file_path = "templates/data/história_da_psicologia.json"
-
-        data = get_data(file_path)
-        tree = create_tree(data)
+        tree = create_tree(self.data)
         position_nodes(tree)
         play_tree(self, tree)
 
 if __name__ == "__main__":
     # Renderizar a cena
     config.media_width = "75%"
-    scene = ArvoreConceitual()
+    root = {
+        "id": 1,
+        "text": "Root",
+        "shape": "circle",
+        "children": [
+            {
+                "id": 2,
+                "text": "Child 1",
+                "shape": "rectangle",
+                "children": [
+                    {
+                        "id": 4,
+                        "text": "Grandchild 1",
+                        "shape": "ellipse",
+                        "children": []
+                    },
+                    {
+                        "id": 5,
+                        "text": "Grandchild 2",
+                        "shape": "dot",
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Child 2",
+                "shape": "ellipse",
+                "children": [
+                    {
+                        "id": 6,
+                        "text": "Grandchild 3",
+                        "shape": "circle",
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    }
+    scene = TopDownTree(data=root)
     scene.render()
 

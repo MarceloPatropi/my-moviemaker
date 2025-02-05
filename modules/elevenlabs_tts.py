@@ -4,17 +4,16 @@ from elevenlabs import play, save
 import os
 
 class ElevenLabsTTS:
-    def __init__(self, api_key=None):
+    def __init__(self, api_key=None, voice_id='wuWdl4Iz37U6Vlao5GGo', output_format='mp3_44100_128', model_id='eleven_multilingual_v2', language_code='pt-BR'):
         load_dotenv()
         api_key = api_key or os.getenv("ELEVENLABS_API_KEY")
         self.client = ElevenLabs(
             api_key=api_key
         )
-#        self.client = ElevenLabs()
-        self.voice_id = 'wuWdl4Iz37U6Vlao5GGo'
-        self.output_format = 'mp3_44100_128'
-        self.model_id = 'eleven_multilingual_v2'
-        self.language_code = 'pt-BR'
+        self.voice_id = voice_id or 'wuWdl4Iz37U6Vlao5GGo'
+        self.output_format = output_format or 'mp3_44100_128'
+        self.model_id = model_id or 'eleven_multilingual_v2'
+        self.language_code = language_code  or 'pt-BR'
 
 
     def generate_audio(self, text, voice="default", output_file="output.mp3"):

@@ -1,5 +1,6 @@
 /media/*
 /templates/media/*
+/output/*
 *.mp3
 .env
 __pycache__/
