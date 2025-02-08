@@ -65,15 +65,13 @@ class TopDownTree(MovingCameraScene):
         def play_tree(scene, tree, parent_bottom=None):
             if parent_bottom is not None:
                 line = CubicBezier(parent_bottom, parent_bottom + DOWN, tree["node"].get_top() + UP, tree["node"].get_top())
-#                parent_group.add(line)
-                self.play(Create(line))
+                scene.play(Create(line), self.camera.frame.animate.move_to(line.get_center()))
             scene.play(self.camera.frame.animate.move_to(tree["node"]))
             scene.play(Create(tree["node"]))
             if tree.get("children"):
                 parent_bottom = tree["node"].get_bottom()
                 for child in tree["children"]:
                     play_tree(scene, child, parent_bottom)
-                # Acho um bom local para adicionar as linhas
 
         tree = create_tree(self.data)
         position_nodes(tree)
