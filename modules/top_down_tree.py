@@ -7,7 +7,6 @@ from typing import Literal
 from pydantic import BaseModel
 
 class TreeNode(BaseModel):
-    id: int
     text: str
     shape: Literal["dot", "circle", "rectangle", "ellipse"]
     children: list["TreeNode"]
@@ -48,6 +47,7 @@ class TopDownTree(MovingCameraScene):
             def calculate_width(node):
                 if node.get("children"):
                     return sum([calculate_width(child) for child in node["children"]])
+                # return max(1, len(node["text"]) / 10)  # Ajustar largura com base no comprimento do texto
                 return 1
             
             def position_node(node, x_offset=0.5):
@@ -56,7 +56,7 @@ class TopDownTree(MovingCameraScene):
                     current_x = x_offset - total_width / 2
                     for child in node["children"]:
                         child_width = calculate_width(child)
-                        child["node"].next_to(node["node"], DOWN, buff=1).shift(RIGHT * current_x *2)
+                        child["node"].next_to(node["node"], DOWN, buff=1).shift(RIGHT * current_x * 4)
                         current_x += child_width
                         position_node(child)
 
@@ -65,7 +65,7 @@ class TopDownTree(MovingCameraScene):
         def play_tree(scene, tree, parent_bottom=None):
             if parent_bottom is not None:
                 line = CubicBezier(parent_bottom, parent_bottom + DOWN, tree["node"].get_top() + UP, tree["node"].get_top())
-                scene.play(Create(line), self.camera.frame.animate.move_to(line.get_center()))
+                scene.play(Create(line), self.camera.frame.animate.move_to(line.get_end()))
             scene.play(self.camera.frame.animate.move_to(tree["node"]))
             scene.play(Create(tree["node"]))
             if tree.get("children"):

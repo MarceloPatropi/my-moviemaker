@@ -7,10 +7,12 @@ import requests
 
 from modules.top_down_tree import TopDownTree, TreeNode
 from modules.venn_diagram import VennDiagram
+from modules.text_display import TextDisplay
 from modules.elevenlabs_tts import ElevenLabsTTS
 from modules.pexels_api import PexelsAPI
 from modules.openai_chatgpt import OpenAIChatGPT
 from modules.pexels_api import PexelsAPI
+import time
 
 class VideoWundt(Scene):
     def construct(self):
@@ -203,6 +205,7 @@ if __name__ == "__main__":
     # Cena 02
     print("Cena 02 ...")
     config.output_file = "cena02_árvore.mp4"
+    config.quality = "low_quality"
 
     scene02_prompt = """
     Crie a estrutura de uma árvore conceitual, começando pela raiz Alma e gerando quantos filhos forem necessários para contar a história da psicologia moderna.
@@ -224,8 +227,47 @@ if __name__ == "__main__":
 
         with open(scene02_tree_path, "w") as f:
             json.dump(scene02_tree, f, indent=4)
+    start_time = time.time()
+    
     tree = TopDownTree(scene02_tree)
     tree.render()
+    
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Tempo para renderizar a árvore: {elapsed_time:.2f} segundos")
+
+    # Loop para criar cenas com títulos e textos
+    cenas = [
+        {"titulo": "antiguidade", "texto": "Prática de perfuração do crânio\npara tratar problemas mentais ou espirituais."},
+        {"titulo": "egito", "texto": "Conceito de Ka: energia vital."},
+        {"titulo": "egito", "texto": "Valoriza\u00e7\u00e3o do cora\u00e7\u00e3o enquanto centro da alma."},
+        {"titulo": "oriente_antigo", "texto": "Hindu\u00edsmo\nAtman: o Eu interior, a alma."},
+        {"titulo": "oriente_antigo", "texto": "Budismo\nAnatta: a aus\u00eancia de um eu permanente."},
+        {"titulo": "grecia_antiga", "texto": "Plat\u00e3o\nAlma imortal e dualismo corpo-alma."},
+        {"titulo": "grecia_antiga", "texto": "Arist\u00f3teles\nAlma como forma do corpo,\n, ess\u00eancia que d\u00e1 vida."},
+        {"titulo": "grecia_antiga", "texto": "Galeno\nEsp\u00edrito como intermedi\u00e1rio entre corpo e alma."},
+        {"titulo": "grecia_antiga", "texto": "Hip\u00f3crates\nTeoria dos Humores e suas implica\u00e7\u00f5es na medicina mental."},
+        {"titulo": "escolastica", "texto": "Escolástica\nIntegra\u00e7\u00e3o de filosofia grega e teologia crist\u00e3"}, 
+        {"titulo": "idade_media", "texto": "Agostinho de hipona\nAlma como imagem de Deus."},
+        {"titulo": "idade_media", "texto": "Tomás de Aquino\nAlma racional como princ\u00edpio imortal,\nbaseada em Arist\u00f3teles"},
+        {"titulo": "avicena", "texto": "Avicena\nConceito de intelecto e subst\u00e2ncia ponte entre Deus e o homem"},
+        {"titulo": "renascimento", "texto": "Renascimento\nRetorno \u00e0s fontes cl\u00e1ssicas,\nvaloriza\u00e7\u00e3o do homem e da raz\u00e3o"},
+        {"titulo": "renascimento", "texto": "Descartes\nDualismo corpo-mente,\nvaloriza\u00e7\u00e3o da raz\u00e3o"},
+        {"titulo": "iluminismo", "texto": "Iluminismo\nValoriza\u00e7\u00e3o da raz\u00e3o e do m\u00e9todo cient\u00edfico"},
+        {"titulo": "iluminismo", "texto": "Kant\nCr\u00edtica da raz\u00e3o pura,\nlimites do conhecimento humano"},
+        {"titulo": "romantismo", "texto": "Romantismo\nValoriza\u00e7\u00e3o da subjetividade e da emo\u00e7\u00e3o"},
+        {"titulo": "romantismo", "texto": "Hegel\nDial\u00e9tica do Esp\u00edrito,\nprogresso do conhecimento"},
+        {"titulo": "positivismo", "texto": "Positivismo\nValoriza\u00e7\u00e3o do m\u00e9todo cient\u00edfico,\nempirismo e observa\u00e7\u00e3o"},
+        {"titulo": "positivismo", "texto": "Comte\nLei dos Tr\u00eas Estados,\npositivismo como filosofia da ci\u00eancia"},
+        {"titulo": "psicologia_cientifica", "texto": "Wundt\nPsicologia experimental,\nprimeiro laborat\u00f3rio de psicologia"},
+        # Adicione mais cenas conforme necessário
+    ]
+
+    # for i, cena in enumerate(cenas, start=3):
+    #     print(f"Cena {i} ...")
+    #     config.output_file = f"cena0{i}_wundt_{cena['titulo']}.mp4"
+    #     scene = TextDisplay(cena["texto"], h_align="left")
+    #     scene.render()
 
     print("Criando JSON para edição no Premiere...")
 #    gerar_json_edicao()
