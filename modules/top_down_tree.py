@@ -50,14 +50,27 @@ class TopDownTree(MovingCameraScene):
                 # return max(1, len(node["text"]) / 10)  # Ajustar largura com base no comprimento do texto
                 return 1
             
-            def position_node(node, x_offset=0.5):
+            def position_node(node, x_offset=0):
                 if node.get("children"):
+                    console.log("================================")
+                    console.log(f"node:  {node['text']}")
                     total_width = calculate_width(node)
-                    current_x = x_offset - total_width / 2
+                    # console.log(f"current_x: {x_offset} - {total_width} / 2: {x_offset - total_width / 2}")
+                    # current_x = total_width / 2
                     for child in node["children"]:
+                        console.log("--------------------")
+                        console.log(f"child: {child['text']}")
                         child_width = calculate_width(child)
-                        child["node"].next_to(node["node"], DOWN, buff=1).shift(RIGHT * current_x * 4)
-                        current_x += child_width
+                        console.log(f"total_width: {total_width}")
+                        console.log(f"child_width: {child_width}")
+                        console.log(f"x_offset: {x_offset}")
+                        current_x = (total_width /2) - (child_width /2) - x_offset 
+                        console.log(f"current_x: {current_x}")
+                        # console.log(f"current_x += child_width: {current_x} += {child_width}")
+                        # current_x += child_width                        
+                        console.log(f"position: {current_x * 4}")
+                        child["node"].next_to(node["node"], DOWN, buff=1).shift(LEFT * current_x * 4)
+                        x_offset += child_width
                         position_node(child)
 
             position_node(tree)
